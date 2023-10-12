@@ -979,7 +979,8 @@ admins_db = "admins.json"
 others_db = "others.json"
 votes_db = "votes.json"
 users_channels_db = "users_channels.json"
-write(others_db,
+if not os.path.exists(others_db):
+  write(others_db,
       {"options": {
           "forward_from_users": True,
           "new_members_notice": True
