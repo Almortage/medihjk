@@ -981,10 +981,10 @@ votes_db = "votes.json"
 users_channels_db = "users_channels.json"
 if not os.path.exists(others_db):
   write(others_db,
-      {"options": {
-          "forward_from_users": True,
-          "new_members_notice": True
-      }})
+        {"options": {
+            "forward_from_users": True,
+            "new_members_notice": True
+        }})
 users = read(users_db)
 admins = read(admins_db)
 channels = read(channels_db)
@@ -995,7 +995,7 @@ users_channels = read(users_channels_db)
 
 
 async def main():
-  server(app)
+  server()
   commands = [
       Command(command="start", description="Start the bot."),
       Command(command="admin", description="Just for admins.")
