@@ -248,7 +248,7 @@ async def users_add_channel(callback: CallbackQuery):
   try:
     response = await listener.listen_to(
         callback,
-        "- قم بإرسال معرف القناه مبدوءًا ب @ اذا كانت القناه عامه.\n- أو قم بإرسال رابط الدعوه إذا كانت القناه خاصه.\n- سيتم إلغاء استلام القناه تلقائيا بعد 30 ثانبه.",
+        "- قم بإرسال معرف القناه مبدوءًا ب @ اذا كانت القناه عامه.\n- أو قم  بإعادة توجيه منشور من القناه اذا كانت خاصه.\n- سيتم إلغاء استلام القناه تلقائيا بعد 30 ثانبه.",
         timeout=30)
   except TimeOut:
     await app.send_message(chat_id=user_id, text="انتهى وقت استلام القناه.")
