@@ -49,7 +49,7 @@ async def start(message: Message):
   if "message" in message.text:
     data = message.text.split("_", 3)
     chat_id = data[-1]
-    message_id = [1]
+    message_id = data[1]
     try:
       response = await listener.listen_to(
           message,
@@ -94,7 +94,7 @@ async def add_comment(response, chat_id, message_id, user_id):
       Button(
           "- لنشر تعليقك -",
           url=
-          f"https://t.me/{bot.username}?start=message_{copied.message_id}_chat_{chat_id}"
+          f"https://t.me/{bot.username}?start=message_{message_id}_chat_{chat_id if isinstance(chat_id, int) else chat_id.split('@')[-1]}"
       )
   ]])
   caption = (str(response.caption) if any([
@@ -735,33 +735,34 @@ async def channel_post_handler(message: Message):
 
 
 def channels_markup(user_id):
-  user_setting = users[str(user_id)]["settings"]
-  markup = Keyboard([
-      [
-          Button("- زر رابط القناه ✅️ -" if user_setting["channel_button"] else
-                 "- زر رابط القناه ❌️ -",
-                 callback_data="channel_button"),
-      ],
-      [
-          Button("- تغيير الإيموجي -", callback_data="change_emo"),
-          Button("- إضافة ايموجي ✅️ -"
-                 if user_setting["add_emo"] else "- إضافة ايموجي ❌️ -",
-                 callback_data="add_emo"),
-      ],
-      [
-          Button("- تغيير الحقوق -", callback_data="change_rights"),
-          Button("- إضافة حقوق ✅️ -"
-                 if user_setting["add_rights"] else "- إضافة حقوق ❌️ -",
-                 callback_data="add_rights"),
-      ],
-      [
-          Button("- زر التعليقات ✅️ -"
-                 if user_setting["comment_button"] else "- زر التعليقات ❌️ -",
-                 callback_data="comment_button"),
-      ],  # @BENN_DEV & @BENfiles
-      [Button("- العوده -", callback_data="users_start")]
-  ])
-  return markup
+    markup = Keyboard([
+        [
+            Button(
+                "- زر رابط القناه ✅️ -" if users[str(user_id)]["settings"]["channel_button"] else "- زر رابط القناه ❌️ -", 
+                callback_data="channel_button"),
+        ],
+        [
+            Button("- تغيير الإيموجي -", callback_data="change_emo"),
+            Button(
+                "- إضافة ايموجي ✅️ -" if users[str(user_id)]["settings"]["add_emo"] else "- إضافة ايموجي ❌️ -", 
+                callback_data="add_emo"),
+        ],
+        [
+            Button("- تغيير الحقوق -", callback_data="change_rights"),
+            Button(
+                "- إضافة حقوق ✅️ -" if users[str(user_id)]["settings"]["add_rights"] else "- إضافة حقوق ❌️ -", 
+                callback_data="add_rights"),
+        ],
+        [
+            Button(
+                "- زر التعليقات ✅️ -" if users[str(user_id)]["settings"]["comment_button"] else "- زر التعليقات ❌️ -", 
+                callback_data="comment_button"),
+        ],# @BENN_DEV & @BENfiles
+        [
+            Button("- العوده -", callback_data="users_start")
+        ]
+    ])
+    return markup
 
 
 @app.message_handler(commands=["admin"], chat_types="private")
@@ -997,7 +998,7 @@ users_channels = read(users_channels_db)
 async def main():
   server()
   commands = [
-      Command(command="start", description="Start the bot."),
+      Command(command="start", description="Stay alivert the bot."),
       Command(command="admin", description="Just for admins.")
   ]
   await app.set_my_commands(commands=commands)
