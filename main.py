@@ -998,7 +998,7 @@ users_channels = read(users_channels_db)
 async def main():
   server()
   commands = [
-      Command(command="start", description="Stay alivert the bot."),
+      Command(command="start", description="Start the bot."),
       Command(command="admin", description="Just for admins.")
   ]
   await app.set_my_commands(commands=commands)
