@@ -5,7 +5,7 @@ from random import randint
 from server import server
 import asyncio, json, os, telebot, requests
 
-bot_token = "BOT TOKEN"
+bot_token = "5677734062:AAFeuAHDea1Cqgn953VEEma7514VDZS4yJ8"
 app = AsyncTeleBot(token=bot_token)
 loop = asyncio.get_event_loop()
 listener = Listener(app, loop)
